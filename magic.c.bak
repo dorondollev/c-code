@@ -1,0 +1,124 @@
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
+
+#define N 5
+/* PN = for power N */
+#define PN ((N)*(N))
+/* SN - for sum N's */
+#define SUM ((N)*((PN)+(1))/(2))
+/* TC - for total chars */
+#define TC ((PN)*(2))
+
+int checksum(int *s);
+void print_t(int *t);
+void stot (char *s, int *t);
+void readline(char *s);
+int issquare(int square[][N]);
+void ttosquare(int *t, int square[][], int lim1, int lim2);
+void print_square (int square[][]);
+void print_error(int *t);
+int isline(int line[], int lim);
+
+main()
+{
+        int square[N][N]={0};
+        int t[PN] = {0}, result;
+        char s[] = "15 8 1 24 17 16 14 7 5 23 22 20 13 6 4 3 21 19 12 10 9 2 25 18 11";
+//      printf("enter %d numbers each line, row, angle of %d should produce a sum of %d: ",PN,N,SN);
+//      readline(s);
+        stot(s, t);
+	    ttosquare(t, square, N, N);
+	    result = issquare(square, N, SUM);
+		printf("result is %d\n", result);
+	    print_t(t);
+        print_square(square);
+}
+
+int issquare(int square[][], int lim, int sum)
+{
+	int result;
+	result = chklines(square, lim, sum);
+}
+
+int chklines(int square[][], int lim, int sum)
+{
+	int i, j;
+	for (i = 0;i < lim;i++)
+		if (checksum(&square[i][0]) != sum)
+			return 0;
+		else
+			return 1;
+}
+
+int isline(int line[], int lim)
+{
+	int n = 0, i;
+	for (i = 0;line[i] < lim;i++)
+		n += line[i];
+	return n;
+}
+
+int checksum(int *s)
+{
+        int n = 0;
+        while(*s++ != '\0')
+                n += *s;
+        return n;
+}
+
+void print_square (int square[][N])
+{
+        int i, j;
+        for (i = 0;i < N;i++){
+                printf("\n");
+                for (j=0;j < N;j++)
+                        printf("\t%d\t", square[i][j]);
+		}
+        printf("\n");
+}
+
+void ttosquare(int *t, int square[][N], int lim1, int lim2)
+{
+        int i, j;
+        for (i = 0;i < lim1;i++)
+                for (j = 0;j < lim2;j++)
+                        square[i][j] = *t++;
+}
+
+void print_error(int *t)
+{
+        printf("the line ");
+        while(*t != '\0')
+                printf("%d ", *t++);
+        printf("has an error\n");
+}
+
+void readline(char *s)
+{
+        char c;
+        while((c=getchar()) != EOF && c != '\n')
+                *s++ = c;
+}
+
+void print_t(int *t)
+{
+        while(*t++ != '\0')
+                printf("%d\n", *t);
+        printf("\n");
+}
+
+void stot (char *s, int *t)
+{
+        int k, n, i=0;
+        int slength = strlen(s);
+        for(k=0;k < slength;) {
+                for(i=k;isspace(s[i]);i++)
+                        ;
+                for(n=0;isdigit(s[i]);i++)
+                        n = 10 * n + (s[i] - '0');
+                *t++ = n;
+                k=i;
+        }
+        *t = '\0';
+}

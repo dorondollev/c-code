@@ -1,0 +1,18 @@
+#include <stdio.h>
+#include <string.h>
+
+#define ARRAY 16
+
+typedef struct 
+{
+	char set;
+	char data[ARRAY];
+}Set;
+
+main()
+{
+	Set *tmp;
+	strcpy(tmp->set,"A");
+	//tmp->data = "stam";
+	printf("set tmp<%c>\n",tmp->set);
+}
